@@ -38,6 +38,10 @@ int has_children(node* current_node)
     return 0;
     
 }
+
+/*
+this function go all over the trie and free all of the nodes in the trie , but not the root
+*/
 int free_them_all(node * current_node)
 {
    if(has_children(current_node) == 1)
@@ -55,6 +59,10 @@ int free_them_all(node * current_node)
    return 0;
 }
 
+/*
+reset the node ponter to the root of the trie and
+call an inner function that free all the nodes in the trie
+*/
 int free_all(node * current_node)
 {
   while(current_node->letter != '$')
@@ -93,12 +101,14 @@ int get_word(node *root)
                 temp_node->word_count++;
             }
         }
+        // if the char is a letter insert it to the trie
         else if((g_char <= 90 && g_char >= 65) || (g_char <= 122 && g_char >= 97))
         {
             char_change = tolower(g_char);
             if (temp_node->children[char_change - 'a'] == NULL)
             {
                 temp_node->children[char_change - 'a'] = new_child(char_change,temp_node);
+                // if there is no more space in memory , free all memory and exit
                 if(temp_node->children[char_change - 'a'] == NULL)
                 {
                   free_all(temp_node);
@@ -135,6 +145,9 @@ int get_text(node * root)
     
 }
 
+/*
+go from the current node up to check for nodes it can free, nodes with no children
+*/
 int free_par_to_par(node *current_node)
 {
   node * parent_temp;
@@ -162,12 +175,15 @@ print the next word in the alphabetical order and free the memory if needed
   temp_node = root;
   while (flag == 1)
   {
+    //if the nde is not the root
      if(temp_node->letter != '$')
      {
+       // print as word if even one word ends here
          if (temp_node->word_count>0)
          {
              printf("%c %ld\n",temp_node->letter ,temp_node->word_count);
              temp_node->word_count = 0;
+             // if the node have no cildren free it and check his prev
              if(has_children(temp_node) == 0)
                {
               parent_temp = temp_node->parent;
@@ -218,12 +234,15 @@ print the next word in the reverse alphabetical order and free the memory if nee
   temp_node = root;
   while (flag == 1)
   {
+    //if the nde is not the root
      if(temp_node->letter != '$')
      {
+       // print as word if even one word ends here
          if (temp_node->word_count>0)
          {
              printf("%c %ld\n",temp_node->letter,temp_node->word_count);
              temp_node->word_count = 0;
+             // if the node have no cildren free it and check his prev
              if(has_children(temp_node) == 0)
                {
                parent_temp = temp_node->parent;

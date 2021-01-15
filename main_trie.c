@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "trie.h"
-
+// main function to create a trie by the text it gets and print it 
 int main(int argc, char * argv[])
 {
  int ok_input;
